@@ -1,16 +1,20 @@
-## Hi there 👋
+# Hi, I'm Lucas Palacios 🇦🇷
 
-<!--
-**palaciosgalialucas-del/palaciosgalialucas-del** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+### 🚀 Professional Vision
+I am a digital infrastructure builder committed to **Radical Transparency**. I believe that open systems and clear data governance are the pillars of the upcoming global economic and social transformation.
 
-Here are some ideas to get you started:
+### 🛠️ What I'm working on:
+- **Mundo Gambito:** Transitioning a physical chess organization into a transparent digital platform.
+- **AI Integration:** Building Microsoft AI Agents for business automation and efficiency.
+- **Digital Sovereignty:** Managing professional assets through ICANN and Web3 ecosystems.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### 📚 Currently Learning:
+- **Microsoft AI Agent:** From Foundations to Applications (Coursera).
+- **Google IT Support Professional Certificate** (Coursera).
+
+> *"Transparency is the foundation of the new global economy."*
+
+---
+### ♟️ Let's Connect:
+- **Email:** palaciosgalialucas@gmail.com
+- **LinkedIn:** [https://www.linkedin.com/in/lucas-palacios-galia-a965343aa]
