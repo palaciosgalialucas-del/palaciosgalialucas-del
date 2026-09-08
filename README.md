@@ -4,8 +4,7 @@ Landing page de **Mundo Gambito**, programa de pedagogía de ajedrez para escuel
 Sitio estático: HTML + CSS + JS, sin build, sin framework. Se publica en Vercel con cada
 push a `main`.
 
-La URL de producción está en el dashboard de Vercel, en el proyecto conectado a este
-repositorio.
+**En vivo:** https://palaciosgalialucas-del.vercel.app
 
 ## Estructura
 
@@ -121,9 +120,10 @@ Vercel también publica una URL distinta por cada deploy, con un hash en el medi
 para revisar un cambio puntual; **la que se comparte es la de producción**, que siempre
 apunta al último deploy de `main`.
 
-> **El nombre del proyecto define la URL.** El proyecto se creó cuando esta landing era
-> de otra marca, así que conviene renombrarlo a `mundo-gambito` para que la URL acompañe:
-> **Settings → General → Project Name**. Al renombrarlo, la URL vieja deja de responder.
+> **El proyecto se llama `mundo-gambito`, pero la URL quedó con el nombre viejo.** Al
+> renombrar el proyecto, Vercel no cambió el dominio que había generado automáticamente.
+> Para tener `mundo-gambito.vercel.app` hay que agregarlo a mano: en el proyecto, sección
+> **Domains**, botón **+**, escribirlo y confirmar. Es cosmético; el sitio funciona igual.
 
 ### Si alguna vez hay que rehacerlo desde cero
 
