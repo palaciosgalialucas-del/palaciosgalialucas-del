@@ -22,65 +22,33 @@ El diseño es exactamente el del prototipo original (paleta, tipografías y layo
 
 ---
 
-## 1. Conectar el formulario a Formspree
+## 1. El formulario y los leads (Formspree)
 
-Hoy el formulario **todavía no envía nada**: falta pegar tu endpoint. Son 5 minutos.
+**Ya está conectado y funcionando.** El formulario envía a Formspree, al formulario
+*Max Power Business Leads*, endpoint `https://formspree.io/f/myeybwek`, cableado en el
+atributo `action` del `<form>` en `public/index.html`.
 
-### Crear la cuenta y el formulario
+No hay claves ni variables de entorno: el endpoint es público por diseño, va en el HTML.
 
-1. Entrá a **https://formspree.io** y hacé click en **Get started** / **Sign up**.
-2. Registrate con el email donde querés recibir los leads (podés usar Google o email +
-   contraseña). Ese email es al que van a llegar los avisos.
-3. Confirmá tu cuenta desde el mail que te manda Formspree.
-4. Ya adentro, click en **+ New form** (o **New project** y después **New form**).
-5. Completá:
-   - **Form name**: `Max Power Business — Leads`
-   - **Send emails to**: tu email (ej. `palaciosgalialucas@gmail.com`)
-6. Click en **Create form**.
-7. Formspree te muestra el **endpoint**, con esta forma:
+### Probar que llegan los leads
 
-   ```
-   https://formspree.io/f/xdkogqwr
-   ```
+1. Levantá el sitio en local (sección 2) y mandá el formulario con datos reales.
+2. Formspree puede pedirte que **confirmes el primer envío por mail**: abrí ese mail y
+   hacé click en el link. Es una sola vez.
+3. Entrá a tu panel en https://formspree.io y confirmá que la entrada aparece en
+   **Submissions**. Desde ahí se exporta a CSV.
 
-   Esos 8 caracteres del final son tu ID. Copiá la URL completa.
+### Elegir a qué email llegan
 
-### Dónde pegarlo en el código
-
-Abrí **`public/index.html`**, buscá la etiqueta `<form>` (está cerca del final, en la
-sección "Sumarme a la prueba", precedida por un comentario que dice `PEGÁ ACÁ TU ENDPOINT`)
-y reemplazá `TU_ID_DE_FORMSPREE` por tu ID real:
-
-```html
-<!-- antes -->
-<form class="signup-box"
-      id="signupForm"
-      action="https://formspree.io/f/TU_ID_DE_FORMSPREE"
-      method="POST">
-
-<!-- después -->
-<form class="signup-box"
-      id="signupForm"
-      action="https://formspree.io/f/xdkogqwr"
-      method="POST">
-```
-
-Es el **único** lugar que hay que tocar. Guardá el archivo.
-
-### Probar que funciona
-
-1. Levantá el sitio en local (ver sección 2) y mandá el formulario con tus datos.
-2. La primera vez, Formspree te manda un mail para **confirmar el formulario**: abrilo y
-   hacé click en el link. Hasta que no confirmes, los envíos quedan pendientes.
-3. Desde ahí, cada lead te llega por mail y queda guardado en el panel de Formspree
-   (menú **Submissions**), de donde podés exportarlo a CSV.
+En el panel de Formspree: tu formulario → **Settings** → sección de emails. Podés poner
+varios destinatarios. No hace falta tocar el código para esto.
 
 ### Qué datos te llegan
 
 | Campo       | Contenido                                                      |
 |-------------|----------------------------------------------------------------|
-| `negocio`   | Nombre del negocio                                             |
-| `email`     | Email de contacto                                              |
+| `negocio`   | Nombre del negocio (obligatorio)                               |
+| `email`     | Email de contacto (obligatorio)                                |
 | `rubro`     | Rubro elegido en el desplegable                                |
 | `plan`      | Plan que miraba antes de anotarse (si vino desde "Quiero este plan") |
 | `_subject`  | Asunto del mail: *Nuevo lead — Max Power Business*             |
@@ -88,12 +56,33 @@ Es el **único** lugar que hay que tocar. Guardá el archivo.
 También hay un campo trampa (`_gotcha`), invisible para las personas: si un bot lo
 completa, Formspree descarta el envío automáticamente.
 
-**Sobre el plan gratuito:** Formspree gratis permite **50 envíos por mes**. Para una prueba
-inicial alcanza y sobra. Si empieza a llenarse, el plan pago arranca en unos USD 10/mes.
+### Cómo funciona el envío
 
-**Si algo falla:** el formulario muestra el mensaje de error en rojo debajo del botón en vez
-de perder el lead en silencio. Los dos errores más comunes son: no haber pegado el endpoint,
-o no haber confirmado el formulario desde el mail de Formspree.
+`public/main.js` manda los datos con `fetch` y `Accept: application/json`, así el visitante
+nunca sale de la página: al confirmarse el envío aparece la caja verde con su email. Si el
+envío falla, el motivo se muestra en rojo debajo del botón y el botón se rehabilita — el
+lead no se pierde en silencio. Si el visitante tiene JavaScript desactivado, el `<form>`
+hace POST nativo a Formspree y ve la pantalla de confirmación de ellos.
+
+Está escrito en JavaScript vanilla, sin dependencias. La librería `@formspree/ajax` haría
+lo mismo, pero exigiría sumar un `<script>` externo desde un CDN y reescribir el marcado con
+atributos `data-fs-*` y contenedores propios de mensajes — más piezas, y riesgo de mover el
+diseño. Si algún día querés sus validaciones campo por campo, se cambia sin tocar el resto.
+
+**Plan gratuito:** 50 envíos por mes. Para la prueba inicial alcanza y sobra. Si empieza a
+llenarse, el plan pago arranca en unos USD 10/mes.
+
+### Cambiar de formulario
+
+Reemplazá el ID en el `action` del `<form>` en `public/index.html`:
+
+```html
+<form class="signup-box" id="signupForm"
+      action="https://formspree.io/f/myeybwek"   <!-- ← acá -->
+      method="POST">
+```
+
+Es el único lugar donde aparece el endpoint.
 
 ---
 

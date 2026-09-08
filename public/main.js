@@ -15,8 +15,6 @@
   var submitBtn = form.querySelector('.signup-submit');
   var planField = document.getElementById('plan');
 
-  var PLACEHOLDER = 'TU_ID_DE_FORMSPREE';
-
   function showError(msg) {
     errorNote.textContent = msg;
     errorNote.classList.add('visible');
@@ -35,13 +33,6 @@
   });
 
   form.addEventListener('submit', function (e) {
-    // El endpoint todavía no se configuró: no hay a dónde enviar.
-    if (form.action.indexOf(PLACEHOLDER) !== -1) {
-      e.preventDefault();
-      showError('Falta configurar el endpoint de Formspree en public/index.html (atributo action del formulario). Mirá el README.');
-      return;
-    }
-
     e.preventDefault();
     clearError();
 
