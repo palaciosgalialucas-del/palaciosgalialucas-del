@@ -6,6 +6,10 @@ build, sin framework. Se publica en Vercel en minutos.
 
 El diseño es exactamente el del prototipo original (paleta, tipografías y layout sin cambios).
 
+**En vivo:** https://palaciosgalialucas-del-palaciosgalialucas-del.vercel.app
+
+Cada push a `main` republica el sitio automáticamente.
+
 ## Estructura
 
 ```
@@ -50,7 +54,7 @@ varios destinatarios. No hace falta tocar el código para esto.
 | `negocio`   | Nombre del negocio (obligatorio)                               |
 | `email`     | Email de contacto (obligatorio)                                |
 | `rubro`     | Rubro elegido en el desplegable                                |
-| `plan`      | Plan que miraba antes de anotarse (si vino desde "Quiero este plan") |
+| `plan`      | Plan que miraba antes de anotarse. Queda **vacío** si el visitante llegó al formulario scrolleando en vez de tocar "Quiero este plan": es el comportamiento esperado |
 | `_subject`  | Asunto del mail: *Nuevo lead — Max Power Business*             |
 
 También hay un campo trampa (`_gotcha`), invisible para las personas: si un bot lo
@@ -117,6 +121,19 @@ puede fallar por restricciones del navegador con `file://`. Para probar el formu
 ---
 
 ## 3. Deploy a Vercel
+
+**Ya está hecho.** El proyecto está importado en Vercel y conectado a este repositorio:
+cada push a `main` dispara un deploy nuevo, sin pasos manuales. La URL de producción es
+la de arriba.
+
+Vercel también publica una URL distinta por cada deploy, con un hash en el medio
+(`...-qanwxi84p-...`). Sirve para revisar un cambio puntual; **la que se comparte es la de
+producción**, que siempre apunta al último deploy de `main`.
+
+> Si querés una URL más linda, se cambia el nombre del proyecto en Vercel:
+> **Settings → General → Project Name**. Pasa a ser `<nombre-nuevo>.vercel.app`.
+
+Lo que sigue queda como referencia, por si algún día hay que rehacerlo desde cero.
 
 ### Crear la cuenta
 
