@@ -1,14 +1,11 @@
-# Max Power Business — Landing
+# Mundo Gambito — Landing
 
-Landing page de **Max Power Business**, plataforma de gestión de negocio (ventas, stock,
-clientes, caja, usuarios y auditoría) para pymes. Sitio estático: HTML + CSS + JS, sin
-build, sin framework. Se publica en Vercel en minutos.
+Landing page de **Mundo Gambito**, programa de pedagogía de ajedrez para escuelas rurales.
+Sitio estático: HTML + CSS + JS, sin build, sin framework. Se publica en Vercel con cada
+push a `main`.
 
-El diseño es exactamente el del prototipo original (paleta, tipografías y layout sin cambios).
-
-**En vivo:** https://max-power-business.vercel.app
-
-Cada push a `main` republica el sitio automáticamente.
+La URL de producción está en el dashboard de Vercel, en el proyecto conectado a este
+repositorio.
 
 ## Estructura
 
@@ -16,7 +13,7 @@ Cada push a `main` republica el sitio automáticamente.
 .
 ├── public/
 │   ├── index.html      # la página
-│   ├── styles.css      # todo el CSS (idéntico al prototipo)
+│   ├── styles.css      # todo el CSS
 │   ├── main.js         # envío del formulario a Formspree
 │   └── favicon.svg     # ícono de la pestaña
 ├── vercel.json         # config de deploy (sitio estático)
@@ -24,38 +21,43 @@ Cada push a `main` republica el sitio automáticamente.
 └── README.md
 ```
 
+> El diseño (paleta, tipografías y layout) viene de una landing anterior y se mantuvo sin
+> cambios: `styles.css` y `vercel.json` no se tocaron al adaptar el contenido.
+
 ---
 
-## 1. El formulario y los leads (Formspree)
+## 1. El formulario y los contactos (Formspree)
 
-**Ya está conectado y funcionando.** El formulario envía a Formspree, al formulario
-*Max Power Business Leads*, endpoint `https://formspree.io/f/myeybwek`, cableado en el
+**Ya está conectado.** El formulario envía a Formspree, al formulario
+*Mundo Gambito — Contacto*, endpoint `https://formspree.io/f/meaqprwv`, cableado en el
 atributo `action` del `<form>` en `public/index.html`.
 
 No hay claves ni variables de entorno: el endpoint es público por diseño, va en el HTML.
 
-### Probar que llegan los leads
+### Probar que llegan los contactos
 
 1. Levantá el sitio en local (sección 2) y mandá el formulario con datos reales.
 2. Formspree puede pedirte que **confirmes el primer envío por mail**: abrí ese mail y
-   hacé click en el link. Es una sola vez.
+   hacé click en el link. Es una sola vez, por formulario.
 3. Entrá a tu panel en https://formspree.io y confirmá que la entrada aparece en
    **Submissions**. Desde ahí se exporta a CSV.
 
 ### Elegir a qué email llegan
 
-En el panel de Formspree: tu formulario → **Settings** → sección de emails. Podés poner
-varios destinatarios. No hace falta tocar el código para esto.
+En el panel de Formspree: el formulario → **Settings** → sección de emails. Podés poner
+varios destinatarios. No hace falta tocar el código.
 
-### Qué datos te llegan
+### Qué datos llegan
 
 | Campo       | Contenido                                                      |
 |-------------|----------------------------------------------------------------|
-| `negocio`   | Nombre del negocio (obligatorio)                               |
+| `nombre`    | Nombre de quien escribe (obligatorio)                          |
+| `escuela`   | Escuela y paraje o localidad (obligatorio)                     |
+| `provincia` | Provincia elegida en el desplegable                            |
 | `email`     | Email de contacto (obligatorio)                                |
-| `rubro`     | Rubro elegido en el desplegable                                |
-| `plan`      | Plan que miraba antes de anotarse. Queda **vacío** si el visitante llegó al formulario scrolleando en vez de tocar "Quiero este plan": es el comportamiento esperado |
-| `_subject`  | Asunto del mail: *Nuevo lead — Max Power Business*             |
+| `mensaje`   | Texto libre, opcional                                          |
+| `modalidad` | Modalidad que miraba antes de escribir. Queda **vacío** si llegó al formulario scrolleando en vez de tocar "Quiero esta modalidad": es el comportamiento esperado |
+| `_subject`  | Asunto del mail: *Nuevo contacto — Mundo Gambito*              |
 
 También hay un campo trampa (`_gotcha`), invisible para las personas: si un bot lo
 completa, Formspree descarta el envío automáticamente.
@@ -65,34 +67,24 @@ completa, Formspree descarta el envío automáticamente.
 `public/main.js` manda los datos con `fetch` y `Accept: application/json`, así el visitante
 nunca sale de la página: al confirmarse el envío aparece la caja verde con su email. Si el
 envío falla, el motivo se muestra en rojo debajo del botón y el botón se rehabilita — el
-lead no se pierde en silencio. Si el visitante tiene JavaScript desactivado, el `<form>`
+contacto no se pierde en silencio. Si el visitante tiene JavaScript desactivado, el `<form>`
 hace POST nativo a Formspree y ve la pantalla de confirmación de ellos.
 
-Está escrito en JavaScript vanilla, sin dependencias. La librería `@formspree/ajax` haría
-lo mismo, pero exigiría sumar un `<script>` externo desde un CDN y reescribir el marcado con
-atributos `data-fs-*` y contenedores propios de mensajes — más piezas, y riesgo de mover el
-diseño. Si algún día querés sus validaciones campo por campo, se cambia sin tocar el resto.
+Está escrito en JavaScript vanilla, sin dependencias.
 
-**Plan gratuito:** 50 envíos por mes. Para la prueba inicial alcanza y sobra. Si empieza a
-llenarse, el plan pago arranca en unos USD 10/mes.
+**Plan gratuito:** 50 envíos por mes.
 
 ### Cambiar de formulario
 
-Reemplazá el ID en el `action` del `<form>` en `public/index.html`:
+Reemplazá el ID en el `action` del `<form>` en `public/index.html`. Es el único lugar donde
+aparece el endpoint.
 
-```html
-<form class="signup-box" id="signupForm"
-      action="https://formspree.io/f/myeybwek"   <!-- ← acá -->
-      method="POST">
-```
-
-Es el único lugar donde aparece el endpoint.
+> El campo oculto de modalidad se llama `modalidad`, pero su `id` sigue siendo `plan`
+> porque `main.js` lo busca por ese id. Si cambiás uno, cambiá el otro.
 
 ---
 
 ## 2. Correr el proyecto en local
-
-No necesitás instalar nada raro. Elegí una de estas tres:
 
 **Opción A — con Node (recomendada)**
 
@@ -122,40 +114,26 @@ puede fallar por restricciones del navegador con `file://`. Para probar el formu
 
 ## 3. Deploy a Vercel
 
-**Ya está hecho.** El proyecto está importado en Vercel y conectado a este repositorio:
-cada push a `main` dispara un deploy nuevo, sin pasos manuales. La URL de producción es
-la de arriba.
+**Ya está configurado.** El proyecto está importado en Vercel y conectado a este
+repositorio: cada push a `main` dispara un deploy nuevo, sin pasos manuales.
 
-Vercel también publica una URL distinta por cada deploy, con un hash en el medio
-(`...-qanwxi84p-...`). Sirve para revisar un cambio puntual; **la que se comparte es la de
-producción**, que siempre apunta al último deploy de `main`.
+Vercel también publica una URL distinta por cada deploy, con un hash en el medio. Sirve
+para revisar un cambio puntual; **la que se comparte es la de producción**, que siempre
+apunta al último deploy de `main`.
 
-El proyecto se llama **`max-power-business`**, de donde sale la URL de producción.
-Se cambia en Vercel: **Settings → General → Project Name**. Al renombrarlo, la URL vieja
-deja de responder, así que si ya la compartiste con alguien, avisale.
+> **El nombre del proyecto define la URL.** El proyecto se creó cuando esta landing era
+> de otra marca, así que conviene renombrarlo a `mundo-gambito` para que la URL acompañe:
+> **Settings → General → Project Name**. Al renombrarlo, la URL vieja deja de responder.
 
-Lo que sigue queda como referencia, por si algún día hay que rehacerlo desde cero.
+### Si alguna vez hay que rehacerlo desde cero
 
-### Crear la cuenta
+1. Entrá a **https://vercel.com/signup** y elegí *Continue with GitHub*. Plan **Hobby** (gratis).
+2. **Add New… → Project**, buscá el repositorio y **Import**.
+3. **No toques la configuración**: el `vercel.json` ya declara que es un sitio estático
+   servido desde `public/`. Framework Preset en *Other*, Build Command vacío.
+4. **Deploy**.
 
-1. Entrá a **https://vercel.com/signup**.
-2. Elegí **Continue with GitHub** (lo más práctico: así después se despliega solo con cada push).
-3. Autorizá a Vercel a acceder a tu cuenta de GitHub.
-4. Elegí el plan **Hobby** — gratis, y alcanza de sobra para esta landing.
-
-### Opción A — desde GitHub (recomendada: se actualiza sola)
-
-1. Asegurate de que el código esté pusheado a GitHub.
-2. En Vercel: **Add New… → Project**.
-3. Buscá el repositorio `palaciosgalialucas-del` y click en **Import**.
-4. En la pantalla de configuración **no toques nada**: el `vercel.json` ya define que es un
-   sitio estático servido desde `public/`. Dejá Framework Preset en *Other* y Build Command vacío.
-5. Click en **Deploy**.
-6. En ~30 segundos tenés la URL, del estilo `max-power-business.vercel.app`.
-
-A partir de ahí, **cada `git push` a la rama principal republica el sitio automáticamente**.
-
-### Opción B — desde la terminal (un solo comando)
+O desde la terminal:
 
 ```bash
 npm i -g vercel     # una sola vez
@@ -163,29 +141,20 @@ vercel login        # una sola vez
 vercel --prod       # publica
 ```
 
-La primera vez te hace 4 preguntas; podés aceptar todas las respuestas por defecto con Enter
-(scope: tu cuenta / link to existing project: no / project name: max-power-business /
-directory: `./`).
-
-### Después de publicar
-
-Entrá a la URL y mandá el formulario una vez desde el sitio ya publicado, para confirmar que
-los leads te llegan al mail de verdad.
-
 ---
 
-## 4. Conectar el dominio propio (maxpowerbussiness.com)
+## 4. Conectar un dominio propio
 
-Primero: **el dominio tiene que estar comprado**. Si todavía no lo tenés, se compra en
-NIC Argentina (para `.com.ar`), Namecheap, GoDaddy, Google Domains/Squarespace o en el propio
-Vercel (**Domains → Buy**, que es lo más simple porque queda todo configurado solo).
+Primero: el dominio tiene que estar comprado. Se compra en NIC Argentina (para `.com.ar`),
+Namecheap, GoDaddy, o en el propio Vercel (**Domains → Buy**, lo más simple porque queda
+todo configurado solo).
 
 Si ya lo comprás en otro lado:
 
-1. En Vercel, entrá a tu proyecto → pestaña **Settings** → **Domains**.
-2. Escribí `maxpowerbussiness.com` y click en **Add**.
-3. Vercel te va a ofrecer agregar también `www.maxpowerbussiness.com` con redirección.
-   Aceptá: conviene tener las dos.
+1. En Vercel, entrá al proyecto → **Settings** → **Domains**.
+2. Escribí el dominio y click en **Add**.
+3. Vercel te va a ofrecer agregar también la versión con `www` y una redirección. Aceptá:
+   conviene tener las dos.
 4. Vercel te muestra los registros DNS que hay que cargar. Van a ser algo así:
 
    | Tipo    | Nombre | Valor                   |
@@ -207,20 +176,15 @@ Si ya lo comprás en otro lado:
 **Alternativa más simple (nameservers):** en vez de cargar registros uno por uno, podés apuntar
 todo el dominio a Vercel cambiando los *nameservers* en tu registrador por los que Vercel indica
 (`ns1.vercel-dns.com` y `ns2.vercel-dns.com`). Ojo: si hacés esto, cualquier otro servicio del
-dominio (por ejemplo un correo `@maxpowerbussiness.com`) hay que reconfigurarlo desde Vercel.
-
-> **Cuidado con la ortografía del dominio.** El que pediste es `maxpowerbussiness.com`, con
-> doble "s" en *bussiness*. La palabra en inglés se escribe *business*, con una sola "s".
-> Vale la pena decidir cuál querés antes de imprimirlo en tarjetas — y si podés, comprar las
-> dos y redirigir una a la otra.
+dominio (por ejemplo un correo del mismo dominio) hay que reconfigurarlo desde Vercel.
 
 ---
 
 ## Cambios frecuentes
 
-| Qué querés cambiar          | Dónde                                                        |
-|-----------------------------|--------------------------------------------------------------|
-| Textos, precios, planes     | `public/index.html`                                          |
-| Colores, tipografías        | Variables `:root` arriba de `public/styles.css`              |
-| Email que recibe los leads  | Panel de Formspree → tu formulario → **Settings**            |
-| Rubros del desplegable      | `<select id="rubro">` en `public/index.html`                 |
+| Qué querés cambiar             | Dónde                                                     |
+|--------------------------------|-----------------------------------------------------------|
+| Textos, modalidades            | `public/index.html`                                       |
+| Colores, tipografías           | Variables `:root` arriba de `public/styles.css`           |
+| Email que recibe los contactos | Panel de Formspree → el formulario → **Settings**         |
+| Provincias del desplegable     | `<select id="provincia">` en `public/index.html`          |

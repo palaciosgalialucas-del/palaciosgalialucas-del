@@ -35,12 +35,6 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // El endpoint todavía no se configuró: no hay a dónde enviar.
-    if (form.action.indexOf('PEGAR_ENDPOINT') !== -1) {
-      showError('Falta pegar el endpoint de Formspree en el atributo action del formulario, en public/index.html.');
-      return;
-    }
-
     clearError();
 
     var email = document.getElementById('email').value;
