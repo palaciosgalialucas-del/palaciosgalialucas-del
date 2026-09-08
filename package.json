@@ -1,0 +1,9 @@
+{
+  "name": "max-power-business",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page de Max Power Business — gestion de negocio para pymes.",
+  "scripts": {
+    "dev": "npx --yes serve public --listen 3000"
+  }
+}
